@@ -2,9 +2,12 @@ var express = require('express');
 var path = require('path');
 var app = express();
 
-
 //set public folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/favicon.ico', express.static('public/favicon.ico'));
+
+
 
 // set the views
 app.set('views', path.join(__dirname, 'views'));
@@ -13,12 +16,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.get('/', function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    //res.header('Access-Control-Allow-Origin', '*');
+    //res.header('Access-Control-Allow-Credentials', true);
+    //res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+    //res.header('Access-Control-Allow-Headers', 'Content-Type');
 
-
+    
     /*
     var http = require('http');
     var str = '';

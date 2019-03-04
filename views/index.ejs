@@ -15,7 +15,7 @@
 
 <!--End of timeline js files-->
 
-
+<link rel="icon" href="favicon.ico" type="image/ico">  
 <!--Tweet emotion heatmap js files-->
 
 <!--end of tweet heat map js files -->
@@ -53,22 +53,22 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <div id="home" class="container tab-pane active" height='90%'><br>
-                <form class="form-inline" action="/action_page.php">
+                <form class="form-inline" action="/action_page.php" style='margin-top:9%;margin-left:5%'>
                     <div class="input-group mb-3 input-group-sm">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Keyword</span>
+                            <span style='background:#2196F3;color:white' class="input-group-text">Keyword</span>
                         </div>
                         <input type="keyword" class="form-control" id="keyword">
                     </div>
                     <div class="input-group mb-3 input-group-sm">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">From </span>
+                            <span style='background:#2196F3;color:white' class="input-group-text">From </span>
                         </div>
                         <input type="date" class="form-control" id="frmDate">
                     </div>
                     <div class="input-group mb-3 input-group-sm">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">To</span>
+                            <span style='background:#2196F3;color:white'  class="input-group-text">To</span>
                         </div>
                         <input type="date" class="form-control" id="toDate">
                     </div>
@@ -79,35 +79,17 @@
                         </div>
                     </div>
                 </form>
+                
 
             </div>
             <div id="menu1" class="container tab-pane fade"><br>
                 <h3>Heat Map</h3>
                 <!--heat map div area-->
-                <div id="demo-wrapper">
-                    <div id="mapBox">
-                        <div id="up"></div>
-                        <div class="selector">
-                            <button id="btn-prev-map" class="prev-next"><i class="fa fa-angle-left"></i></button>
-                            <select id="mapDropdown" class="ui-widget combobox"></select>
-                            <button id="btn-next-map" class="prev-next"><i class="fa fa-angle-right"></i></button>
-                        </div>
-                        <div id="container"></div>
-                    </div>
-                    <div id="sideBox">
-
-                        <input type="checkbox" id="chkDataLabels" checked='checked' />
-                        <label for="chkDataLabels" style="display: inline">Data labels</label>
-                        <div id="infoBox">
-                            <h4>This map</h4>
-                            <div id="download"></div>
-                        </div>
-                    </div>
-                </div>
+                
 
             </div>
             <div id="menu2" class="container tab-pane fade"><br>
-                <h3>Time Line</h3>
+                <h3>Timeline</h3>
                 <!--Tweet time line div area-->
                 <div id="container1" style="height: 400px; min-width: 310px"></div>
             </div>
@@ -116,7 +98,7 @@
 
                 <div class="media border p-3">
                     <table class="table   table-hover" id='meta_data' style='font-size:10px'>
-                        <thead class='sticky-top table-primary'>
+                        <thead class='sticky-top table-primary' style="font-size:14px;background:#2196F3;color:white">
                             <tr>
                                 <th>Created Date</th>
                                 <th>Tweet Content</th>
@@ -151,7 +133,7 @@
 <script>
 
     function epochConvert(time) {
-        d = new Date(parseInt(time.toString() + "000"));
+        d = new Date(parseInt(time.toString() + "000")+19800);
         return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
     }
     function convertr(data) {
@@ -198,6 +180,7 @@
             var tbody = document.createElement("tbody");
             for (j = 0; j < tweet_meta.length; j++) {
                 var tr = document.createElement("tr");
+                tr.style.cssText = 'font-size:12px'
                 td1 = document.createElement("td");
                 td1.textContent = tweet_meta[j][0];
                 td2 = document.createElement("td");
@@ -309,7 +292,7 @@
         margin: -75px 0 0 -75px;
         border: 16px solid #f3f3f3;
         border-radius: 50%;
-        border-top: 16px solid #3498db;
+        border-top: 16px solid #2196F3;
         width: 120px;
         height: 120px;
         -webkit-animation: spin 2s linear infinite;
