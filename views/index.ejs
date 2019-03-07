@@ -21,7 +21,7 @@
 <!--end of tweet heat map js files -->
 
 <body>
-
+    <!--import header -->
     <header>
         <% include ./partials/header %>
     </header>
@@ -53,26 +53,27 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <div id="home" class="container tab-pane active" height='90%'><br>
+                <!--user input form-->
                 <form class="form-inline" action="/action_page.php" style='margin-top:9%;margin-left:5%'>
-                    <div class="input-group mb-3 input-group-sm">
+                    <div class="input-group mb-3 input-group-sm" style='margin-right:5px'>
                         <div class="input-group-prepend">
                             <span style='background:#2196F3;color:white' class="input-group-text">Keyword</span>
                         </div>
                         <input type="keyword" class="form-control" id="keyword">
                     </div>
-                    <div class="input-group mb-3 input-group-sm">
+                    <div class="input-group mb-3 input-group-sm" style='margin-right:5px'>
                         <div class="input-group-prepend">
                             <span style='background:#2196F3;color:white' class="input-group-text">From </span>
                         </div>
                         <input type="date" class="form-control" id="frmDate">
                     </div>
-                    <div class="input-group mb-3 input-group-sm">
+                    <div class="input-group mb-3 input-group-sm" style='margin-right:5px'>
                         <div class="input-group-prepend">
                             <span style='background:#2196F3;color:white'  class="input-group-text">To</span>
                         </div>
                         <input type="date" class="form-control" id="toDate">
                     </div>
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3" style='margin-right:5px'>
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-primary" style='margin-left:4px'
                                 id='trig'>Search</button>
@@ -97,7 +98,7 @@
                 <h3>Tweets</h3>
 
                 <div class="media border p-3">
-                    <table class="table   table-hover" id='meta_data' style='font-size:10px'>
+                    <table class="table   table-hover" id='meta_data' style='font-size:10px;'>
                         <thead class='sticky-top table-primary' style="font-size:14px;background:#2196F3;color:white">
                             <tr>
                                 <th>Created Date</th>
@@ -113,6 +114,8 @@
 
     </div>
     </div>
+
+    <!--Import footer-->
     <footer>
         <% include ./partials/footer %>
     </footer>
@@ -121,21 +124,27 @@
 
 <!--Tweet time line script area-->
 <script>
+    //Search button click finction
     $('#trig').click(function (e) {
         e.preventDefault();
-        var keyword = $('#keyword').val();
-        $('#main-div').css('display', 'none');
-        $('#css-wait').css('display', 'block');
-        analyze(keyword);
+        var keyword = $('#keyword').val();//Get the keyword from input box
+        $('#main-div').css('display', 'none');//Hide the Background
+        $('#css-wait').css('display', 'block');//Display the csss waiting Animation
+        analyze(keyword);//Call the analyze function
 
     })
 </script>
 <script>
 
+    //Convert epoch integer to format Y-M-D
     function epochConvert(time) {
+        //add 19800 to epoch integer to convert GMT to GMT+5:30 time zone
         d = new Date(parseInt(time.toString() + "000")+19800);
         return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
     }
+    
+    //Emotion analyze API will send time with epoch format.
+    //Convert it to readable time
     function convertr(data) {
         data = JSON.parse(data)
         for (i = 0; i < data.length; i++) {
@@ -143,6 +152,8 @@
         }
         return data;
     }
+
+    //Collect tweet count from each emotion category
     function getValues(data) {
         dt = [];
         data = JSON.parse(data)
@@ -154,13 +165,16 @@
 
     //Analyze tweet function
     function analyze(keyword) {
+        //call the emotion analyze api(GET with keyword)
         $.getJSON('http://127.0.0.1:5000/analyze/' + keyword, function (data) {
             console.log(data);
 
-            $('#css-wait').css('display', 'none');
-            $('#main-div').css('display', 'block');
-            $('#time-line').click();
-            f = convertr(data['joy']);
+            $('#css-wait').css('display', 'none');//After response by API hide animation
+            $('#main-div').css('display', 'block');//Show background
+            $('#time-line').click();//Click on Timeline tab
+            f = convertr(data['joy']);//Get all the Time value for x axis
+
+            //Get tweet count of all emotion categories
             fear = getValues(data['fear']);
             joy = getValues(data['joy']);
             sad = getValues(data['sadness']);
@@ -168,6 +182,8 @@
             disgust = getValues(data['disgust']);
             surprise = getValues(data['surprise']);
             //console.log(data['fear']);
+
+            //Get all emotion categories
             cat = [];
             for (i = 0; i < f.length; i++) {
                 cat.push(f[i][0]);
@@ -177,10 +193,11 @@
             tweet_meta = data['meta'];
             //tweet_meta = JSON.parse(tweet_meta)
 
+            //Create table elements and view all tweets
             var tbody = document.createElement("tbody");
             for (j = 0; j < tweet_meta.length; j++) {
                 var tr = document.createElement("tr");
-                tr.style.cssText = 'font-size:12px'
+                tr.style.cssText = 'font-size:12px;overflow:scroll;max-width:500px'
                 td1 = document.createElement("td");
                 td1.textContent = tweet_meta[j][0];
                 td2 = document.createElement("td");
@@ -192,7 +209,7 @@
 
             document.getElementById('meta_data').append(tbody);
 
-            ////////////////Time line
+            //View the tweet Timeline
             Highcharts.chart('container1', {
                 chart: {
                     type: 'spline'
